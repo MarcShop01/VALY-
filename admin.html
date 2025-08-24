@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valy la Negra - Administration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6f2;
+            color: #333;
+        }
+        
+        .admin-login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff4d94, #ff3366);
+            padding: 20px;
+        }
+        
+        .login-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #ff4d94;
+        }
+        
+        .admin-dashboard {
+            display: none;
+            padding: 0;
+        }
+        
+        .admin-header {
+            background: #ff4d94;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .admin-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 0;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .admin-sidebar {
+            background: #ffd6e7;
+            padding: 1rem;
+            height: 100%;
+        }
+        
+        .admin-main {
+            background: white;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: none;
+            border: none;
+            text-align: left;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 极速加速器0.2s;
+            color: #555;
+        }
+        
+        .sidebar-btn i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-btn:hover, .sidebar-btn.active {
+            background: #ff4d94;
+            color: white;
+        }
+        
+极速加速器        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: #ffe6f2;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #ff4d94;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .stat-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff4d94;
+        }
+        
+        .cart-item-admin, .order-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .order-item {
+            background: #ffe6f2;
+            border-left: 4px solid #ff4d94;
+        }
+        
+        .form-container {
+            background: #ffe6f2;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .极速加速器form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d极速加速器5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff4d94;
+            box-shadow: 0 0 0 3px rgba(255, 77, 148, 0.1);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background: #ff4d94;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #ff3366;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-danger {
+            background: #ff3366;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #e62e5c;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .user-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .login-message {
+            text-align: center;
+            margin-top: 1rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                display: flex;
+                overflow-x: auto;
+                padding: 0.5rem;
+            }
+            
+            .sidebar-btn {
+                white-space: nowrap;
+                margin-right: 0.5rem;
+                margin-bottom: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .form-row {
+                grid-template-column极速加速器s: 1fr;
+            }
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+      import { getFirestore } from "极速加速器https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+      window.firebaseConfig = {
+        apiKey: "VOTRE_NOUVELLE_CLE_API",
+        authDomain: "votre-nouveau-domaine.firebaseapp.com",
+        projectId: "votre-nouveau-project-id",
+        storageBucket: "votre-nouveau-bucket.appspot.com",
+        messagingSender极速加速器Id: "VOTRE_NOUVEL_ID",
+        app极速加速器Id: "VOTRE_NOUVELLE_APP_ID",
+        measurementId: "VOTRE_NOUVEAU_MEASUREMENT_ID"
+      };
+      window.firebaseApp = initializeApp(window.firebaseConfig);
+      window.firebaseDB = getFirestore(window.firebaseApp);
+    </script>
+</head>
+<body>
+    <!-- Formulaire de connexion admin -->
+    <div id="adminLogin" class="admin-login">
+        <div class="login-form">
+            <h2>
+                <i class="fas fa-shield-alt"></i> Administration Valy la Negra
+            </h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminPassword">Mot de passe administrateur</label>
+                    <input type="password" id="adminPassword" placeholder="Entrez le mot de passe" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+            </form>
+            <p class="login-message">
+                Accès réservé aux administrateurs uniquement
+            </p>
+        </div>
+    </div>
+    
+    <!-- Dashboard admin -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="admin-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Administration Valy la Negra</h1>
+            <button onclick="logout()" class="btn" style="background: rgba(255,255,255,0.2); color: white;">
+                <i class="fas fa-sign-out-alt"></极速加速器i> Déconnexion
+            </button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-sidebar">
+                <button class="sidebar-btn active" onclick="showSection('dashboard')">
+                    <i class="fas fa-chart-bar"></i> Tableau de bord
+                </button>
+                <button class="sidebar-btn" onclick="showSection('products')">
+                    <i class="fas fa-box"></i> Gestion des produits
+                </button>
+                <button class="sidebar-btn" onclick="showSection('users')">
+                    <i class="fas fa-users"></i> Utilisateurs
+                </button>
+                <button class="sidebar-btn" onclick="showSection('orders')">
+                    <i class="fas fa-shopping-cart"></i> Commandes
+                </button>
+                <button class="sidebar-btn" onclick="showSection('carts')">
+                    <i class="fas fa-shopping-basket"></i> Paniers actifs
+                </button>
+            </div>
+            <div class="admin-main">
+                <div id="dashboardSection" class="admin-section active">
+                    <h2>Tableau de bord</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Produits</h3>
+                            <p id="totalProducts">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Utilisateurs</h3>
+                            <p id="totalUsers">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Utilisateurs actifs</h3>
+                            <p id="activeUsers">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Paniers actifs</h3>
+                            <p id="activeCarts">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="productsSection" class="admin-section">
+                    <h2>Gestion des produits</h2>
+                    <div class="form-container">
+                        <h3>Ajouter un nouveau produit</h3>
+                        <form id="productForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productName">Nom du produit</label>
+                                    <input type="text" id="productName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCategory">Catégorie</label>
+                                    <select id="productCategory" required>
+                                        <option value="electronics">Électronique</option>
+                                        <option value="clothing">Vêtements</option>
+                                        <option value="home">Maison</option>
+                                        <option value="beauty">Beauté</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="shoes">Chaussures</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for极速加速器="productPrice">Prix ($)</label>
+                                    <input type="number" id="productPrice" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productOriginalPrice">Prix original ($)</label>
+                                    <input type="number" id="productOriginalPrice" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productDescription">Description</label>
+                                <textarea id="productDescription" rows="3"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productImage1">Image 1 (URL)</label>
+                                    <input type="url" id="productImage1" placeholder="https://example.com/image1.jpg">
+                                </div>
+                                <div class="form-group">
+                                    <label for="productImage2">Image 2 (URL)</label>
+                                    <input type="url" id="productImage2" placeholder="https://example.com/image2.jpg">
+                                </极速加速器div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productImage3">Image 3 (URL)</label>
+                                    <input type="url" id="productImage3" placeholder="https://example.com/image3.jpg">
+                                </div>
+                                <div class="form-group">
+                                    <label for="productImage4">Image 4 (URL)</label>
+                                    <input type="url" id="productImage4" placeholder="https://example.com/image4.jpg">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Ajouter le produit
+                            </button>
+                        </form>
+                    </div>
+                    <div id="productsList"></div>
+                </div>
+                
+                <div id="usersSection" class="admin-section">
+                    <h2>Gestion des utilisateurs</h2>
+                    <div id="usersList"></div>
+                </div>
+                
+                <div id="ordersSection" class="admin-section">
+                    <h2>Gestion des commandes</极速加速器h2>
+                    <div id="ordersList"></div>
+                </div>
+                
+                <div id="cartsSection" class="admin-section">
+                    <h2>Paniers actifs</h2>
+                    <div id="cartsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
