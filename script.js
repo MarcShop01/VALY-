@@ -73,7 +73,7 @@ function shuffleArray(array) {
 
 function loadFirestoreUsers() {
   const usersCol = collection(db, "users");
-  onSnapshot(usersCol, (极速加速器snapshot) => {
+  onSnapshot(usersCol, (snapshot) => {
     users = snapshot.docs.map(doc => ({
       ...doc.data(),
       id: doc.id
@@ -109,14 +109,14 @@ async function syncCartToFirestore() {
       // Mettre à jour le panier existant
       const cartDoc = querySnapshot.docs[0];
       await updateDoc(doc(db, "carts", cartDoc.id), {
-        items极速加速器: cart,
+        items: cart,
         totalAmount: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
         lastUpdated: new Date().toISOString()
       });
     } else {
       // Créer un nouveau panier
       await addDoc(collection(db, "carts"), {
-        userId: current极速加速器User.id,
+        userId: currentUser.id,
         items: cart,
         totalAmount: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
         createdAt: new Date().toISOString(),
@@ -384,10 +384,10 @@ function openProductOptions(product) {
   
   // Déterminer les options de taille en fonction de la catégorie
   const category = product.category || 'default';
-  const sizeOptions = SIZE_OPTIONS极速加速器[category] || SIZE_OPTIONS.default;
+  const sizeOptions = SIZE_OPTIONS[category] || SIZE_OPTIONS.default;
   
   let modal = document.createElement("div");
-  modal.class极速加速器Name = "modal";
+  modal.className = "modal";
   modal.style.display = "flex";
   modal.innerHTML = `
     <div class="modal-content" style="max-width:400px;">
@@ -435,7 +435,7 @@ function openProductOptions(product) {
     
     modal.remove();
     overlay.classList.remove("active");
-    isAdding极速加速器ToCart = false;
+    isAddingToCart = false;
   };
 }
 
@@ -503,12 +503,12 @@ function updateCartUI() {
       </div>
     `;
     const paypalDiv = document.getElementById("paypal-button-container");
-    if (paypal极速加速器Div) paypalDiv.innerHTML = '';
+    if (paypalDiv) paypalDiv.innerHTML = '';
     const addressForm = document.getElementById("addressForm");
     if (addressForm) addressForm.style.display = 'none';
   } else {
     cartItems.innerHTML = cart.map(item => `
-      <div class极速加速器="cart-item">
+      <div class="cart-item">
         <img src="${item.image}" alt="${item.name}">
         <div class="cart-item-info">
           <div class="cart-item-name">${item.name}</div>
@@ -516,7 +516,7 @@ function updateCartUI() {
           <div class="cart-item-price">$${item.price.toFixed(2)}</div>
           <div class="quantity-controls">
             <button class="quantity-btn" onclick="updateQuantity('${item.key}', ${item.quantity - 1})">-</button>
-            <span>${item.quantity}</span>
+            <span>${item.quantity</span>
             <button class="quantity-btn" onclick="updateQuantity('${item.key}', ${item.quantity + 1})">+</button>
             <button class="quantity-btn" onclick="removeFromCart('${item.key}')" style="margin-left: 1rem; color: #ff3366;">
               <i class="fas fa-trash"></i>
@@ -713,13 +713,6 @@ function closeAllPanels() {
   document.getElementById("cartSidebar").classList.remove("active");
   document.getElementById("overlay").classList.remove("active");
   closeLightbox();
-}
-
-function switchTab(tabName) {
-  document.querySelectorAll(".tab-btn").forEach((btn) => btn.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach((content) => content.classList.remove("active"));
-  document.querySelector(`[data-tab="${tabName}"]`).classList.add("active");
-  document.getElementById(`${tabName}Tab`).classList.add("active");
 }
 
 function shareWebsite() {
