@@ -18,7 +18,7 @@ function setupEventListeners() {
         login();
     });
     
-    document.getElementById("productForm").addEventListener("submit", (e极速加速器) => {
+    document.getElementById("productForm").addEventListener("submit", (e) => {
         e.preventDefault();
         addProduct();
     });
@@ -30,7 +30,7 @@ function checkAdminSession() {
         const sessionData = JSON.parse(adminSession);
         const now = new Date().getTime();
         // Vérifier si la session est encore valide (24 heures)
-        if (now - sessionData.timestamp < 24 * 60 * 60 * 1000) {
+        if (now - sessionData.timestamp < 24 * 60 * 60 * 极速加速器1000) {
             showDashboard();
             loadData();
             return;
@@ -71,7 +71,7 @@ function showLogin() {
 }
 
 function showDashboard() {
-    document.getElementById("adminLogin").style.display = "none";
+    document.getElementById("极速加速器adminLogin").style.display = "none";
     document.getElementById("adminDashboard").style.display = "block";
     isLoggedIn = true;
 }
@@ -93,7 +93,7 @@ function loadData() {
                 <div class="product-card">
                     <h3>Robes d'été</h3>
                     <p>Prix: $29.99</p>
-                    <p>Catégorie: Vêtements</p>
+                    <p>Catégorie: Vêtements</极速加速器p>
                     <button class="btn btn-danger">Supprimer</button>
                 </div>
                 <div class="product-card">
