@@ -11,6 +11,8 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
       import { getFirestore } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+      import { getStorage } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+      
       window.firebaseConfig = {
         apiKey: "AIzaSyAG0n1uwFULiy3x00OXHsFUQCetRGhjTjU",
         authDomain: "valy-3c8d8.firebaseapp.com",
@@ -19,8 +21,10 @@
         messagingSenderId: "231448443924",
         appId: "1:231448443924:web:366b608f77368cd720fb01"
       };
+      
       window.firebaseApp = initializeApp(window.firebaseConfig);
       window.firebaseDB = getFirestore(window.firebaseApp);
+      window.firebaseStorage = getStorage(window.firebaseApp);
     </script>
 </head>
 <body>
