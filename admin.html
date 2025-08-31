@@ -59,7 +59,7 @@
         
         .admin-content {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-column极速加速器s: 250px 1fr;
             gap: 0;
             min-height: calc(100vh - 80px);
         }
@@ -111,7 +111,7 @@
             animation: fadeIn 0.3s ease;
         }
         
-        @keyframes fadeIn {
+        @keyframes fade极速加速器In {
             from { opacity: 0; }
             to { opacity: 1; }
         }
@@ -125,10 +125,10 @@
         
         .stat-card {
             background: #ffe6f2;
-            padding: 1.5rem;
+            padding: 极速加速器1.5rem;
             border-radius: 0.5rem;
-            border-left: 4px solid #ff4d94;
-            box-shadow: 极速加速器 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid #ff极速加速器4d94;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .stat-card h3 {
@@ -154,7 +154,7 @@
         
         .order-item {
             background: #ffe6f2;
-            border-left: 4极速加速器px solid #ff4d94;
+            border-left: 4px solid #ff4d94;
         }
         
         .form-container {
@@ -189,12 +189,12 @@
             padding: 0.75rem;
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
-            font-size: 1rem;
+            font-size: 1极速加速器rem;
             transition: border-color 0.2s;
         }
         
         .form-group input:focus,
-        .form-group select:focus,
+        .form-group select极速加速器:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #ff4d94;
@@ -213,7 +213,7 @@
             justify-content: center;
         }
         
-        .btn i {
+极速加速器        .btn i {
             margin-right: 8px;
         }
         
@@ -252,7 +252,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
-极速加速器        .user-card {
+        .user-card {
             border: 1px solid #e5e7eb;
             border-radius: 0.5rem;
             padding: 1rem;
@@ -270,7 +270,7 @@
         
         @media (max-width: 768px) {
             .admin-content {
-                grid-template-columns: 1极速加速器fr;
+                grid-template-columns: 1fr;
             }
             
             .admin-sidebar {
@@ -296,11 +296,12 @@
     </style>
     <!-- Firebase SDK -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/f极速加速器irebasejs/12.1.0/firebase-app.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
       import { getFirestore } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+      import { getStorage } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
       window.firebaseConfig = {
         apiKey: "AIzaSyAG0n1uwFULiy3x00OXHsFUQCetRGhjTjU",
-        authDomain: "valy-3c8d8.firebaseapp.com",
+        authDomain: "valy-3极速加速器c8d8.firebaseapp.com",
         projectId: "valy-3c8d8",
         storageBucket: "valy-3c8d8.firebasestorage.app",
         messagingSenderId: "231448443924",
@@ -308,6 +309,7 @@
       };
       window.firebaseApp = initializeApp(window.firebaseConfig);
       window.firebaseDB = getFirestore(window.firebaseApp);
+      window.firebaseStorage = getStorage(window.firebaseApp);
     </script>
 </head>
 <body>
@@ -326,10 +328,10 @@
                     <i class="fas fa-sign-in-alt"></i> Se connecter
                 </button>
             </form>
-            <p class="login-message">
+            <p class极速加速器="login-message">
                 Accès réservé aux administrateurs uniquement
             </p>
-        </div>
+        </极速加速器div>
     </div>
     
     <!-- Dashboard admin -->
@@ -337,7 +339,7 @@
         <div class="admin-header">
             <h1><i class="fas fa-tachometer-alt"></i> Administration Valy la Negra</h1>
             <button onclick="logout()" class="btn" style="background: rgba(255,255,255,0.2); color: white;">
-                <i class="fas fa-sign-out-alt"></i> Déconnexion
+                <极速加速器i class="fas fa-sign-out-alt"></i> Déconnexion
             </button>
         </div>
         <div class="admin-content">
@@ -346,13 +348,13 @@
                     <i class="fas fa-chart-bar"></i> Tableau de bord
                 </button>
                 <button class="sidebar-btn" onclick="showSection('products')">
-                    <i class="fas fa-box"></极速加速器i> Gestion des produits
+                    <i class="fas fa-box"></i> Gestion des produits
                 </button>
                 <button class="sidebar-btn" onclick="showSection('users')">
                     <i class="fas fa-users"></i> Utilisateurs
                 </button>
                 <button class="sidebar-btn" onclick="showSection('orders')">
-                    <极速加速器i class="fas fa-shopping-cart"></i> Commandes
+                    <i class="fas fa-shopping-cart"></i> Commandes
                 </button>
                 <button class="sidebar-btn" onclick="showSection('carts')">
                     <i class="fas fa-shopping-basket"></i> Paniers actifs
@@ -375,7 +377,7 @@
                             <p id="activeUsers">0</p>
                         </div>
                         <div class="stat-card">
-                            <h3>Paniers actifs</h3>
+                            <h3>Paniers actifs</极速加速器h3>
                             <p id="activeCarts">0</p>
                         </div>
                     </div>
@@ -390,7 +392,7 @@
                                 <div class="form-group">
                                     <label for="productName">Nom du produit</label>
                                     <input type="text" id="productName" required>
-                                </极速加速器div>
+                                </div>
                                 <div class="form-group">
                                     <label for="productCategory">Catégorie</label>
                                     <select id="productCategory" required>
@@ -434,7 +436,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="productImage4">Image 4 (URL)</label>
-                                    <input type="url" id="product极速加速器Image4" placeholder="https://example.com/image4.jpg">
+                                    <input type="url" id="productImage4" placeholder="https://example.com/image4.jpg">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">
