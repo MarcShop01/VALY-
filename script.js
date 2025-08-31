@@ -7,7 +7,9 @@ import {
   deleteDoc,
   query,
   where,
-  getDocs
+  getDocs,
+  orderBy,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const db = window.firebaseDB;
@@ -49,7 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function loadFirestoreProducts() {
   const productsCol = collection(db, "products");
-  onSnapshot(productsCol, (snapshot) => {
+  const q = query(productsCol, orderBy("createdAt", "desc"));
+  
+  onSnapshot(q, (snapshot) => {
     allProducts = snapshot.docs.map(doc => ({
       ...doc.data(),
       id: doc.id
@@ -111,7 +115,7 @@ async function syncCartToFirestore() {
       await updateDoc(doc(db, "carts", cartDoc.id), {
         items: cart,
         totalAmount: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
-        lastUpdated: new Date().toISOString()
+        lastUpdated: serverTimestamp()
       });
     } else {
       // Créer un nouveau panier
@@ -119,8 +123,8 @@ async function syncCartToFirestore() {
         userId: currentUser.id,
         items: cart,
         totalAmount: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
-        createdAt: new Date().toISOString(),
-        lastUpdated: new Date().toISOString()
+        createdAt: serverTimestamp(),
+        lastUpdated: serverTimestamp()
       });
     }
   } catch (error) {
@@ -135,7 +139,7 @@ async function updateUserActivity() {
   try {
     const userRef = doc(db, "users", currentUser.id);
     await updateDoc(userRef, {
-      lastActivity: new Date().toISOString()
+      lastActivity: serverTimestamp()
     });
   } catch (error) {
     console.error("Erreur mise à jour activité:", error);
@@ -293,9 +297,9 @@ async function registerUser(name, email, phone) {
     name: name,
     email: email,
     phone: phone,
-    registeredAt: new Date().toISOString(),
+    registeredAt: serverTimestamp(),
     isActive: true,
-    lastActivity: new Date().toISOString(),
+    lastActivity: serverTimestamp(),
   };
   try {
     const ref = await addDoc(collection(db, "users"), newUser);
@@ -341,7 +345,7 @@ function renderProducts() {
     const discount = product.originalPrice > 0 ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
     const rating = 4.0 + Math.random() * 1.0;
     const reviews = Math.floor(Math.random() * 1000) + 100;
-    const firstImage = product.images[0] || "https://via.placeholder.com/200?text=Image+Manquante";
+    const firstImage = product.images && product.images.length > 0 ? product.images[0] : "https://via.placeholder.com/200?text=Image+Manquante";
     return `
       <div class="product-card" data-category="${product.category}">
         <div class="product-image" onclick="openLightbox('${product.id}')">
@@ -392,7 +396,7 @@ function openProductOptions(product) {
   modal.innerHTML = `
     <div class="modal-content" style="max-width:400px;">
       <h3>Ajouter au panier</h3>
-      <img src="${product.images[0]}" style="max-width:120px;max-height:120px;border-radius:6px;">
+      <img src="${product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/120'}" style="max-width:120px;max-height:120px;border-radius:6px;">
       <p><strong>${product.name}</strong></p>
       <form id="optionsForm">
         <label for="cartSize">Taille/Modèle :</label>
@@ -451,7 +455,7 @@ function addProductToCart(product, size, color, quantity) {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.images[0],
+      image: product.images && product.images.length > 0 ? product.images[0] : "https://via.placeholder.com/200?text=Image+Manquante",
       quantity,
       size,
       color
@@ -516,7 +520,7 @@ function updateCartUI() {
           <div class="cart-item-price">$${item.price.toFixed(2)}</div>
           <div class="quantity-controls">
             <button class="quantity-btn" onclick="updateQuantity('${item.key}', ${item.quantity - 1})">-</button>
-            <span>${item.quantity</span>
+            <span>${item.quantity}</span>
             <button class="quantity-btn" onclick="updateQuantity('${item.key}', ${item.quantity + 1})">+</button>
             <button class="quantity-btn" onclick="removeFromCart('${item.key}')" style="margin-left: 1rem; color: #ff3366;">
               <i class="fas fa-trash"></i>
@@ -644,7 +648,7 @@ async function createOrder(paymentDetails, shippingAddress) {
       paymentStatus: 'completed',
       shippingAddress: shippingAddress,
       status: 'processing',
-      createdAt: new Date().toISOString()
+      createdAt: serverTimestamp()
     };
     
     // Ajouter la commande à Firestore
@@ -662,7 +666,7 @@ async function createOrder(paymentDetails, shippingAddress) {
       await updateDoc(doc(db, "carts", cartDoc.id), {
         items: [],
         totalAmount: 0,
-        lastUpdated: new Date().toISOString()
+        lastUpdated: serverTimestamp()
       });
     }
   } catch (error) {
