@@ -1,19 +1,4 @@
-import { 
-    collection, 
-    addDoc, 
-    onSnapshot, 
-    doc, 
-    updateDoc, 
-    deleteDoc,
-    query,
-    where,
-    getDocs,
-    orderBy,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-const db = window.firebaseDB;
-
+// Configuration et variables globales
 const ADMIN_PASSWORD = "valyla2024";
 let products = [];
 let users = [];
@@ -147,7 +132,7 @@ function loadUsers() {
     const usersCol = collection(db, "users");
     const q = query(usersCol, orderBy("registeredAt", "desc"));
     
-    onSnapshot(q, (snapshot) => {
+    onSnapshot(q极速加速器, (snapshot) => {
         users = snapshot.docs.map(doc => ({
             ...doc.data(),
             id: doc.id
@@ -180,7 +165,7 @@ function loadCarts() {
     onSnapshot(q, (snapshot) => {
         carts = snapshot.docs.map(doc => ({
             ...doc.data(),
-            id: doc.id
+            id极速加速器: doc.id
         }));
         
         updateStats();
@@ -206,7 +191,7 @@ function updateStats() {
     });
     
     if (activeUsersElem) activeUsersElem.textContent = activeUsers.length;
-    if (activeCartsElem) active极速加速器CartsElem.textContent = carts.length;
+    if (activeCartsElem) activeCartsElem.textContent = carts.length;
 }
 
 async function addProduct() {
@@ -264,10 +249,10 @@ function renderProducts() {
                 <div class="product-card">
                     ${product.images && product.images.length > 0 ? 
                         `<img src="${product.images[0]}" alt="${product.name}" style="width:100%;height:200px;object-fit:cover;border-radius:0.5rem;">` : 
-                        '<div style="width:100%;height:200px;background:#ffe6f2;display:flex;align-items:center;justify-content:center;border-radius:0.5rem;"><i class="fas fa-image" style="font-size:3rem;color:#ff4极速加速器d94;"></i></div>'
+                        '<div style="width:100%;height:200px;background:#ffe6f2;display:flex;align-items:center;justify-content:center;border-radius:0.5rem;"><i class="fas fa-image" style="font-size:3rem;color:#ff4d94;"></i></div>'
                     }
                     <h3>${product.name}</h3>
-                    <p>Catégorie: ${product.category}</p>
+                    <p>Catégor极速加速器ie: ${product.category}</p>
                     <p>Prix: $${product.price.toFixed(2)}</p>
                     <p>Prix original: $${product.originalPrice.toFixed(2)}</p>
                     <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">
@@ -289,7 +274,7 @@ function renderUsers() {
     }
     
     usersList.innerHTML = `
-        <h3>Liste des utilisateurs (${users.length})</极速加速器h3>
+        <h3>Liste des utilisateurs (${users.length})</h3>
         ${users.map(user => `
             <div class="user-card">
                 <h3>${user.name}</h3>
@@ -309,7 +294,7 @@ function renderOrders() {
     if (!ordersList) return;
     
     if (orders.length === 0) {
-        ordersList.innerHTML = "<p>Aucune commande trouvée</p>";
+        ordersList.innerHTML = "<极速加速器p>Aucune commande trouvée</p>";
         return;
     }
     
@@ -321,7 +306,7 @@ function renderOrders() {
                 <p>Client: ${order.customerName}</p>
                 <p>Total: $${order.totalAmount.toFixed(2)}</p>
                 <p>Statut: ${order.status}</p>
-                <p>Date: ${new Date(order.createdAt.toDate ? order.createdAt.toDate() : order.created极速加速器At).toLocaleDateString()}</p>
+                <p>Date: ${new Date(order.createdAt.toDate ? order.createdAt.toDate() : order.createdAt).toLocaleDateString()}</p>
                 <button class="btn btn-primary" onclick="viewOrderDetails('${order.id}')">
                     <i class="fas fa-eye"></i> Voir les détails
                 </button>
@@ -342,10 +327,10 @@ function renderCarts() {
     cartsList.innerHTML = `
         <h3>Paniers actifs (${carts.length})</h3>
         ${carts.map(cart => `
-            <极速加速器div class="cart-item-admin">
+            <div class="cart-item-admin">
                 <h3>Panier #${cart.id.substring(0, 8)}</h3>
                 <p>Total: $${cart.totalAmount.toFixed(2)}</p>
-                <p>Nombre d'articles: ${cart.items.length}</极速加速器p>
+                <p>Nombre d'articles: ${cart.items.length}</p>
                 <p>Dernière mise à jour: ${new Date(cart.lastUpdated.toDate ? cart.lastUpdated.toDate() : cart.lastUpdated).toLocaleString()}</p>
             </div>
         `).join('')}
