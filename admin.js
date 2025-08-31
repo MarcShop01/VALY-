@@ -130,7 +130,7 @@ function loadData() {
         
         if (productsList) productsList.innerHTML = "<p>Aucun produit trouvé</p>";
         if (usersList) usersList.innerHTML = "<p>Aucun utilisateur trouvé</p>";
-        if (orders极速加速器List) ordersList.innerHTML = "<p>Aucune commande trouvée</p>";
+      if (ordersList) ordersList.innerHTML = "<p>Aucune commande trouvée</p>";
         if (cartsList) cartsList.innerHTML = "<p>Aucun panier actif</p>";
     }, 1000);
 }
@@ -201,3 +201,4 @@ window.deleteProduct = function(id) {
         alert("Produit supprimé (simulation)");
     }
 };
+
