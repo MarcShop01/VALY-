@@ -8,7 +8,7 @@ let isLoggedIn = false;
 
 // Initialisation
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Document loaded, setting up event listeners");
+    console.log("Document chargé, configuration des écouteurs d'événements");
     setupEventListeners();
     checkAdminSession();
 });
@@ -17,12 +17,12 @@ function setupEventListeners() {
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
         loginForm.addEventListener("submit", function(e) {
-            console.log("Login form submitted");
+            console.log("Formulaire de connexion soumis");
             e.preventDefault();
             login();
         });
     } else {
-        console.error("Login form not found");
+        console.error("Formulaire de connexion non trouvé");
     }
     
     const productForm = document.getElementById("productForm");
@@ -53,18 +53,18 @@ function checkAdminSession() {
 }
 
 function login() {
-    console.log("Login function called");
+    console.log("Fonction de connexion appelée");
     const passwordInput = document.getElementById("adminPassword");
-    if (!password极速加速器Input) {
-        console.error("Password input not found");
+    if (!passwordInput) {
+        console.error("Champ de mot de passe non trouvé");
         return;
     }
     
     const password = passwordInput.value;
-    console.log("Password entered:", password);
+    console.log("Mot de passe saisi:", password);
     
     if (password === ADMIN_PASSWORD) {
-        console.log("Password correct");
+        console.log("Mot de passe correct");
         // Enregistrer la session
         localStorage.setItem("valylanegra-admin-session", JSON.stringify({
             timestamp: new Date().getTime(),
@@ -74,7 +74,7 @@ function login() {
         showDashboard();
         loadData();
     } else {
-        console.log("Password incorrect");
+        console.log("Mot de passe incorrect");
         alert("Mot de passe incorrect!");
         passwordInput.value = "";
         passwordInput.focus();
@@ -303,10 +303,10 @@ function renderOrders() {
         ${orders.map(order => `
             <div class="order-item">
                 <h3>Commande #${order.id.substring(0, 8)}</h3>
-                <极速加速器p>Client: ${order.customerName}</p>
+                <p>Client: ${order.customerName}</p>
                 <p>Total: $${order.totalAmount.toFixed(2)}</p>
                 <p>Statut: ${order.status}</p>
-                <p>Date: ${new Date(order.createdAt.toDate ? order.createdAt.toDate() : order.createdAt).极速加速器toLocaleDateString()}</p>
+                <p>Date: ${new Date(order.createdAt.toDate ? order.createdAt.toDate() : order.createdAt).toLocaleDateString()}</p>
                 <button class="btn btn-primary" onclick="viewOrderDetails('${order.id}')">
                     <i class="fas fa-eye"></i> Voir les détails
                 </button>
