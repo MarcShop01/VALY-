@@ -76,7 +76,7 @@ function shuffleArray(array) {
 }
 
 function loadFirestoreUsers() {
-  const users极速加速器Col = collection(db, "users");
+  const usersCol = collection(db, "users");
   onSnapshot(usersCol, (snapshot) => {
     users = snapshot.docs.map(doc => ({
       ...doc.data(),
@@ -184,6 +184,8 @@ function setupEventListeners() {
 
   document.querySelectorAll(".category-btn").forEach((btn) => {
     btn.addEventListener("click", function () {
+      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
       currentCategory = this.dataset.category;
       filterByCategory(this.dataset.category);
     });
@@ -213,6 +215,12 @@ function setupEventListeners() {
   
   searchIcon.addEventListener("click", () => {
     applyFilters();
+  });
+  
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      applyFilters();
+    }
   });
 }
 
@@ -364,7 +372,7 @@ function renderProducts() {
             ${product.originalPrice > 0 ? `<span class="original-price">$${product.originalPrice.toFixed(2)}</span>` : ''}
           </div>
           <button class="add-to-cart" onclick="addToCart('${product.id}'); event.stopPropagation()">
-            <i class="fas极速加速器 fa-shopping-cart"></i> Ajouter
+            <i class="fas fa-shopping-cart"></i> Ajouter
           </button>
         </div>
       </div>
@@ -388,14 +396,14 @@ function openProductOptions(product) {
   
   // Déterminer les options de taille en fonction de la catégorie
   const category = product.category || 'default';
-  const sizeOptions = SIZE_OPTIONS[category极速加速器] || SIZE_OPTIONS.default;
+  const sizeOptions = SIZE_OPTIONS[category] || SIZE_OPTIONS.default;
   
   let modal = document.createElement("div");
   modal.className = "modal";
   modal.style.display = "flex";
   modal.innerHTML = `
     <div class="modal-content" style="max-width:400px;">
-      <h3极速加速器>Ajouter au panier</h3>
+      <h3>Ajouter au panier</h3>
       <img src="${product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/120'}" style="max-width:120px;max-height:120px;border-radius:6px;">
       <p><strong>${product.name}</strong></p>
       <form id="optionsForm">
@@ -410,7 +418,7 @@ function openProductOptions(product) {
           ${COLORS.map(c => `<option value="${c}">${c}</option>`).join("")}
         </select>
         <label for="cartQty" style="margin-top:1rem;">Quantité :</label>
-        <input type="number" id="cartQty" name="qty" min="1" value极速加速器="1" style="width:60px;">
+        <input type="number" id="cartQty" name="qty" min="1" value="1" style="width:60px;">
         <button type="submit" id="submitOptions" style="margin-top:1rem;background:#ff4d94;color:white;">Ajouter au panier</button>
         <button type="button" id="closeOptions" style="margin-top:0.5rem;">Annuler</button>
       </form>
@@ -537,7 +545,7 @@ function updateCartUI() {
           <h4 style="margin-bottom: 1rem;">Adresse de livraison</h4>
           <div class="form-group">
             <label for="shippingAddress">Adresse complète</label>
-            <textarea id="shippingAddress极速加速器" rows="3" placeholder="Entrez votre adresse complète pour la livraison" required></textarea>
+            <textarea id="shippingAddress" rows="3" placeholder="Entrez votre adresse complète pour la livraison" required></textarea>
           </div>
         </div>
       `;
@@ -658,7 +666,7 @@ async function createOrder(paymentDetails, shippingAddress) {
     await sendOrderConfirmationEmail(orderData, orderRef.id);
     
     // Vider le panier dans Firestore
-    const cartsQuery = query(collection(db, "carts"), where极速加速器("userId", "==", currentUser.id));
+    const cartsQuery = query(collection(db, "carts"), where("userId", "==", currentUser.id));
     const querySnapshot = await getDocs(cartsQuery);
     
     if (!querySnapshot.empty) {
@@ -699,10 +707,7 @@ async function sendOrderConfirmationEmail(orderData, orderId) {
 }
 
 function filterByCategory(category) {
-  document.querySelectorAll(".category-btn").forEach((btn极速加速器) => {
-    btn.classList.remove("active");
-  });
-  document.querySelector(`[data-category="${category}"]`).classList.add("active");
+  currentCategory = category;
   applyFilters();
 }
 
@@ -723,7 +728,7 @@ function shareWebsite() {
   const url = window.location.href;
   const text = "Découvrez Valy la Negra - La meilleure boutique en ligne pour tous vos besoins!";
   if (navigator.share) {
-    navigator.share({ title: "极速加速器Valy la Negra", text: text, url: url });
+    navigator.share({ title: "Valy la Negra", text: text, url: url });
   } else {
     navigator.clipboard.writeText(url).then(() => {
       alert("Lien copié dans le presse-papiers!");
